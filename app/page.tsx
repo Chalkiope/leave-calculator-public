@@ -1,13 +1,19 @@
-import Image from 'next/image'
-import s from './page.module.css'
-import BasicTable  from './components/basic-table/BasicTable'
-import { StatsComponent } from './components/stats-component/StatsComponent'
+import s from "./page.module.css";
+import { BasicTable } from "./components/basic-table/BasicTable";
+import { StatsComponent } from "./components/stats-component/StatsComponent";
+import { LeaveDocument, LeaveQuery } from "@/src/graphql/generated/graphql";
+import { getClient } from "@/src/serverClient";
 
-export default function Home() {
+export default async function Home() {
+  const client = getClient();
+  const data = await client.query<LeaveQuery>({
+    query: LeaveDocument,
+  });
+
   return (
     <main className={s.main}>
       <BasicTable />
-      <StatsComponent />
+      <StatsComponent data={data.data.allLeaveTables} />
     </main>
-  )
+  );
 }

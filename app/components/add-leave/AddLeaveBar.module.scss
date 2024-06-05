@@ -1,0 +1,33 @@
+.addLeaveWrapper {
+  width: 100%;
+  padding: 20px 10px;
+  margin: 10px 0;
+}
+
+.addForm {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.field {
+  margin: 0 5px;
+}
+
+.nameInput {
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.daysInput {
+  min-width: 100px;
+  flex-grow: 1;
+}
+
+.addButton {
+  flex-grow: 1;
+  white-space: nowrap;
+  min-width: 125px;
+  max-width: 170px;
+  margin: 0 5px;
+}

@@ -1,0 +1,7 @@
+query Leave {
+  allLeaveTables {
+    id
+    leaveName
+    numberOfDays
+  }
+}
