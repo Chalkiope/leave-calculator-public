@@ -1,40 +1,28 @@
 "use client";
 import s from "./AddLeaveBar.module.scss";
-import { buildClient } from "@datocms/cma-client-browser";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { AddCircle, Loop } from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
+import { LeaveContext } from "@/lib/LeaveContext";
 
-export const AddLeaveBar = ({
-  getAllLeaveRecords,
-}: {
-  getAllLeaveRecords: () => void;
-}) => {
+export const AddLeaveBar = () => {
+  const { allLeave, addLeave } = useContext(LeaveContext);
   const [newLeaveName, setNewLeaveName] = useState<string>("");
-  const [newLeaveDays, setNewLeaveDays] = useState<string>("");
+  const [newLeaveDays, setNewLeaveDays] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const client = buildClient({
-    apiToken: `${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
-  });
 
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const record = await client.items.create({
-        item_type: { id: "U0WtEVLcSbGOmgIRiTbz8w", type: "item_type" },
-        leave_name: newLeaveName,
-        number_of_days: newLeaveDays,
-      });
+      addLeave(newLeaveName, newLeaveDays);
     } catch (error) {
       console.log(error);
     } finally {
-      setNewLeaveDays("");
+      setNewLeaveDays(null);
       setNewLeaveName("");
       setIsLoading(false);
-      getAllLeaveRecords();
     }
   };
 
@@ -61,7 +49,7 @@ export const AddLeaveBar = ({
             label="No. of days"
             type="number"
             value={newLeaveDays}
-            onChange={(e) => setNewLeaveDays(e.target.value)}
+            onChange={(e) => setNewLeaveDays(Number(e.target.value))}
             required
           />
           <Button

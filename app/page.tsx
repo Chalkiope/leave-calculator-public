@@ -3,6 +3,7 @@ import { BasicTable } from "./components/basic-table/BasicTable";
 import { StatsComponent } from "./components/stats-component/StatsComponent";
 import { LeaveDocument, LeaveQuery } from "@/src/graphql/generated/graphql";
 import { getClient } from "@/src/serverClient";
+import LeaveContextProvider from "@/lib/LeaveContext";
 
 export default async function Home() {
   const client = getClient();
@@ -11,9 +12,11 @@ export default async function Home() {
   });
 
   return (
-    <main className={s.main}>
-      <BasicTable />
-      <StatsComponent data={data.data.allLeaveTables} />
-    </main>
+    <LeaveContextProvider>
+      <main className={s.main}>
+        <BasicTable />
+        <StatsComponent data={data.data.allLeaveTables} />
+      </main>
+    </LeaveContextProvider>
   );
 }

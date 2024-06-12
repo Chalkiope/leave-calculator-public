@@ -18,8 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <StyledEngineProvider injectFirst>{children}</StyledEngineProvider> */}
-        {children}
+        <StyledEngineProvider injectFirst>{children}</StyledEngineProvider>
       </body>
     </html>
   );

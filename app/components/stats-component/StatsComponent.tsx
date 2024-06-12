@@ -8,9 +8,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment, { Moment } from "moment";
 import { LeaveDataProps } from "../basic-table/BasicTable";
 
-export const totalDaysTaken = (data: any) => {
+export const totalDaysTaken = (data: LeaveDataProps[]) => {
   let days = 0;
-  data.map((trip: any) => {
+  data.map((trip: LeaveDataProps) => {
     days += trip.numberOfDays;
   });
   return days;
@@ -19,15 +19,15 @@ export const totalDaysTaken = (data: any) => {
 export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
   // console.log(data);
 
-  const totalDaysTaken = () => {
-    let days = 0;
-    data.map((trip: any) => {
-      days += trip.numberOfDays;
-    });
-    return days;
-  };
+  // const totalDaysTaken = () => {
+  //   let days = 0;
+  //   data.map((trip: any) => {
+  //     days += trip.numberOfDays;
+  //   });
+  //   return days;
+  // };
 
-  const hoursTaken = totalDaysTaken() * 8;
+  const hoursTaken = totalDaysTaken(data) * 8;
 
   const startDate = moment([2017, 10, 13]);
   const [futureDate, setFutureDate] = useState<any>(null);
@@ -42,7 +42,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
   const accumLeaveHours = Math.floor(hoursPassed * accuFactor);
 
   //subtract leave days already taken
-  const remainingLeaveDays = accumLeaveDays - totalDaysTaken();
+  const remainingLeaveDays = accumLeaveDays - totalDaysTaken(data);
   const remainingLeaveHours = Math.floor(accumLeaveHours - hoursTaken);
 
   const remainingFutureLeave = () => {
@@ -50,7 +50,8 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
     const futureHoursPassed = futureDaysPassed * 8;
     const accumFutureLeaveDays = Math.round(futureDaysPassed * accuFactor);
     const accumFutureLeaveHours = futureHoursPassed * accuFactor;
-    const remainingFutureLeaveDays = accumFutureLeaveDays - totalDaysTaken();
+    const remainingFutureLeaveDays =
+      accumFutureLeaveDays - totalDaysTaken(data);
     const remainingFutureLeaveHours = Math.floor(
       accumFutureLeaveHours - hoursTaken
     );
@@ -72,7 +73,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
           <div className={s.container}>
             <h2>Leave taken since Nov 13, 2017</h2>
             <div>
-              {totalDaysTaken()} Days / {hoursTaken} Hours
+              {totalDaysTaken(data)} Days / {hoursTaken} Hours
             </div>
           </div>
           <div className={s.container}>

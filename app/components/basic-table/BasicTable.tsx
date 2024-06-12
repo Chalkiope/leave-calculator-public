@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { totalDaysTaken } from "../stats-component/StatsComponent";
 import { AddLeaveBar } from "../add-leave/AddLeaveBar";
 import { Add } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
@@ -16,10 +15,10 @@ import EnhancedTable from "./TestTable";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Toolbar from "@mui/material/Toolbar";
-import { buildClient } from "@datocms/cma-client-browser";
 import { SimpleSchemaTypes } from "@datocms/cma-client-browser";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Loading } from "../loading/Loading";
+import { useContext } from "react";
+import { LeaveContext } from "@/lib/LeaveContext";
 
 export interface LeaveDataProps {
   id: any;
@@ -27,25 +26,13 @@ export interface LeaveDataProps {
   numberOfDays?: any;
 }
 
-export function BasicTable() {
-  const [itemsToDisplay, setItemsToDisplay] = useState<LeaveDataProps[]>([]);
+export const BasicTable = () => {
+  const { allLeave, totalDays, deleteLeave } = useContext(LeaveContext);
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<readonly any[]>([]);
-  const client = buildClient({
-    apiToken: `${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
-  });
-  // this works
-  const getAllLeaveRecords = async () => {
-    console.log("get all leave");
-    const records = await client.items.list();
-    console.log(records);
-    setItemsToDisplay(records);
-  };
 
-  useEffect(() => {
-    // populate table once on first render
-    getAllLeaveRecords();
-  }, []);
+  // console.log(allLeave);
+  // console.log(totalDays);
 
   const handleClick = (
     event: React.MouseEvent<unknown>,
@@ -74,21 +61,16 @@ export function BasicTable() {
   const handleDelete = async () => {
     let itemsTemp: SimpleSchemaTypes.ItemData[] = [];
     // map over selected items and bring them into the format Dato is expecting
-    const itemsToDelete = selected.map(
-      (item: SimpleSchemaTypes.ItemBulkDestroyJobSchema) => {
-        itemsTemp.push({ type: "item", id: `${item}` });
-      }
-    );
-    const result = await client.items.bulkDestroy({
-      items: itemsTemp,
+    selected.map((item: SimpleSchemaTypes.ItemBulkDestroyJobSchema) => {
+      itemsTemp.push({ type: "item", id: `${item}` });
     });
+    deleteLeave(itemsTemp);
+
     // remove "selected" text and bin icon
     setSelected([]);
-    // refresh table by getting updated records
-    getAllLeaveRecords();
   };
 
-  if (!itemsToDisplay || itemsToDisplay.length === 0) return <Loading />;
+  if (!allLeave || allLeave.length === 0) return <Loading />;
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
   const numSelected = selected.length;
@@ -106,8 +88,8 @@ export function BasicTable() {
           </Tooltip>
         )}
       </Toolbar>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
+      <TableContainer>
+        <Table className={s.table} aria-label="simple table">
           <TableHead className={s.tableHead}>
             <TableRow>
               <TableCell>Trip</TableCell>
@@ -115,7 +97,7 @@ export function BasicTable() {
             </TableRow>
           </TableHead>
           <TableBody className={s.tableBody}>
-            {itemsToDisplay.map((trip: any, index: number) => {
+            {allLeave.map((trip: any, index: number) => {
               const isItemSelected = isSelected(trip.id);
 
               return (
@@ -146,9 +128,7 @@ export function BasicTable() {
             })}
             <TableRow className={s.tableHead}>
               <TableCell>Total:</TableCell>
-              <TableCell align="right">
-                {totalDaysTaken(itemsToDisplay)}
-              </TableCell>
+              <TableCell align="right">{totalDays}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -165,7 +145,7 @@ export function BasicTable() {
           <Add />
         </IconButton>
       </div>
-      {open && <AddLeaveBar getAllLeaveRecords={getAllLeaveRecords} />}
+      {open && <AddLeaveBar />}
     </div>
   );
-}
+};
