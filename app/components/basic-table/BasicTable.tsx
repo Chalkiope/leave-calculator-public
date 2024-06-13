@@ -6,12 +6,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { AddLeaveBar } from "../add-leave/AddLeaveBar";
-import { Add } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
-import EnhancedTable from "./TestTable";
+import { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,19 +17,9 @@ import { Loading } from "../loading/Loading";
 import { useContext } from "react";
 import { LeaveContext } from "@/lib/LeaveContext";
 
-export interface LeaveDataProps {
-  id: any;
-  leaveName?: string | null | undefined;
-  numberOfDays?: any;
-}
-
 export const BasicTable = () => {
-  const { allLeave, totalDays, deleteLeave } = useContext(LeaveContext);
-  const [open, setOpen] = useState<boolean>(false);
+  const { allLeave, deleteLeave } = useContext(LeaveContext);
   const [selected, setSelected] = useState<readonly any[]>([]);
-
-  // console.log(allLeave);
-  // console.log(totalDays);
 
   const handleClick = (
     event: React.MouseEvent<unknown>,
@@ -78,18 +65,22 @@ export const BasicTable = () => {
   return (
     <div className={s.BasicTable}>
       <h1>Leave taken</h1>
-      <Toolbar>
-        {numSelected > 0 && <div>{numSelected} selected</div>}
-        {numSelected > 0 && (
+      {numSelected > 0 && (
+        <Toolbar className={s.toolbar}>
+          <div className={s.numSelected}>{`${numSelected} ${
+            numSelected === 1 ? "trip" : "trips"
+          } selected`}</div>
+
           <Tooltip title="Delete">
-            <IconButton onClick={handleDelete}>
+            <IconButton onClick={handleDelete} className={s.deleteBtn}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        )}
-      </Toolbar>
-      <TableContainer>
-        <Table className={s.table} aria-label="simple table">
+        </Toolbar>
+      )}
+      <AddLeaveBar />
+      <TableContainer className={s.tableContainer}>
+        <Table className={s.table} aria-label="sticky table">
           <TableHead className={s.tableHead}>
             <TableRow>
               <TableCell>Trip</TableCell>
@@ -126,26 +117,9 @@ export const BasicTable = () => {
                 </TableRow>
               );
             })}
-            <TableRow className={s.tableHead}>
-              <TableCell>Total:</TableCell>
-              <TableCell align="right">{totalDays}</TableCell>
-            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      <div className={s.btnContainer}>
-        <IconButton
-          className={s.openButton}
-          onClick={() => {
-            setOpen(!open);
-          }}
-          size="large"
-          color="primary"
-        >
-          <Add />
-        </IconButton>
-      </div>
-      {open && <AddLeaveBar />}
     </div>
   );
 };

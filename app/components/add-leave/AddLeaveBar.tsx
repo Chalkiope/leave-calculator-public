@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { AddCircle, Loop } from "@mui/icons-material";
-import Paper from "@mui/material/Paper";
 import { LeaveContext } from "@/lib/LeaveContext";
 
 export const AddLeaveBar = () => {
@@ -20,49 +19,47 @@ export const AddLeaveBar = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setNewLeaveDays(null);
+      setNewLeaveDays(0);
       setNewLeaveName("");
       setIsLoading(false);
     }
   };
 
   return (
-    <Paper elevation={1}>
-      <div className={s.addLeaveWrapper}>
-        <div className={s.addForm}>
-          <TextField
-            InputLabelProps={{ shrink: true }}
-            size="small"
-            className={`${s.field} ${s.nameInput}`}
-            name="name"
-            label="Trip"
-            type="text"
-            value={newLeaveName}
-            onChange={(e) => setNewLeaveName(e.target.value)}
-            required
-          />
-          <TextField
-            InputLabelProps={{ shrink: true }}
-            size="small"
-            className={`${s.field} ${s.daysInput}`}
-            name="days"
-            label="No. of days"
-            type="number"
-            value={newLeaveDays}
-            onChange={(e) => setNewLeaveDays(Number(e.target.value))}
-            required
-          />
-          <Button
-            className={s.addButton}
-            variant="contained"
-            onClick={onSubmit}
-            disabled={isLoading}
-            endIcon={isLoading ? <Loop /> : <AddCircle />}
-          >
-            {isLoading ? "Loading..." : "Add Leave"}
-          </Button>
-        </div>
+    <div className={s.addLeaveWrapper}>
+      <div className={s.addForm}>
+        <TextField
+          InputLabelProps={{ shrink: true }}
+          size="small"
+          className={`${s.field} ${s.nameInput}`}
+          name="name"
+          label="Trip"
+          type="text"
+          value={newLeaveName}
+          onChange={(e) => setNewLeaveName(e.target.value)}
+          required
+        />
+        <TextField
+          InputLabelProps={{ shrink: true }}
+          size="small"
+          className={`${s.field} ${s.daysInput}`}
+          name="days"
+          label="No. of days"
+          type="number"
+          value={newLeaveDays}
+          onChange={(e) => setNewLeaveDays(Number(e.target.value))}
+          required
+        />
+        <Button
+          className={s.addButton}
+          variant="contained"
+          onClick={onSubmit}
+          disabled={isLoading}
+          endIcon={isLoading ? <Loop /> : <AddCircle />}
+        >
+          {isLoading ? "Loading..." : "Add Leave"}
+        </Button>
       </div>
-    </Paper>
+    </div>
   );
 };

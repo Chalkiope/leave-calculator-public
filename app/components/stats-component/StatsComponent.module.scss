@@ -1,13 +1,108 @@
+@import "../../../src/styles.scss";
+
 .statsComponent {
   width: 50%;
   height: auto;
-  padding-top: 4rem;
+
+  @media screen and (max-width: 768px) {
+    order: 1;
+    width: 100%;
+  }
+
+  & h1 {
+    color: $purple;
+    margin-bottom: 20px;
+  }
 }
 
 .innerContainer {
   display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  padding: 4rem;
+  flex-wrap: wrap;
+  gap: 3rem;
   width: 100%;
+
+  @media screen and (max-width: 768px) {
+    gap: 1rem;
+  }
+}
+
+.container {
+  background-color: white;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 1rem;
+  width: calc(50% - 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+
+  @media screen and (max-width: 768px) {
+    width: calc(50% - 0.5rem);
+  }
+
+  & h2 {
+    font-size: 2rem;
+    color: white;
+    font-weight: 700;
+    line-height: 0.7em;
+
+    & span {
+      display: block;
+      font-size: 1rem;
+      font-weight: 300;
+    }
+  }
+
+  & .counter {
+    color: $black;
+    font-size: 1.5rem;
+  }
+}
+
+.leaveAcc {
+  background-color: $purple;
+
+  & h2 {
+    color: lighten($purple, 50%);
+  }
+
+  & .counter {
+    color: lighten($purple, 50%);
+  }
+}
+
+.leaveTaken {
+  background-color: $blue;
+
+  & h2 {
+    color: darken($blue, 35%);
+  }
+
+  & .counter {
+    color: darken($blue, 35%);
+  }
+}
+
+.leaveAvailToday {
+  background-color: $orange;
+
+  & h2 {
+    color: darken($orange, 35%);
+  }
+
+  & .counter {
+    color: darken($orange, 35%);
+  }
+}
+
+.leaveAvailOn {
+  background-color: white;
+  & h2 {
+    color: lighten($purple, 10%);
+  }
+
+  & .counter {
+    color: lighten($purple, 10%);
+  }
 }

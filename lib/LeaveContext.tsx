@@ -7,7 +7,7 @@ export const LeaveContext = createContext<{
   getAllLeaveRecords: () => void;
   addLeave: (leaveName: string, days: number | null) => void;
   deleteLeave: (items: SimpleSchemaTypes.ItemData[]) => void;
-  totalDays: number | null;
+  totalDays: number;
 }>({
   allLeave: [],
   getAllLeaveRecords: () => {},
@@ -22,7 +22,7 @@ export default function LeaveContextProvider({
   children: React.ReactNode;
 }) {
   const [allLeave, setAllLeave] = useState<SimpleSchemaTypes.Item[]>([]);
-  const [totalDays, setTotalDays] = useState<number | null>(null);
+  const [totalDays, setTotalDays] = useState<number>(0);
 
   const client = buildClient({
     apiToken: `${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
@@ -57,13 +57,10 @@ export default function LeaveContextProvider({
 
   // calc total
   const totalDaysTaken = (data: SimpleSchemaTypes.Item[]) => {
-    console.log("calc total days");
     let days = 0;
     data.map((item: SimpleSchemaTypes.Item) => {
-      console.log(item.number_of_days);
       days += item.number_of_days as number;
     });
-    console.log(days);
     setTotalDays(days);
   };
 

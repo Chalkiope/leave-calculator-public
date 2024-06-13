@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Dongle } from "next/font/google";
 import { StyledEngineProvider } from "@mui/material/styles";
 
-const inter = Inter({ subsets: ["latin"] });
+const dongle = Dongle({ weight: ["300", "400", "700"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={dongle.className}>
         <StyledEngineProvider injectFirst>{children}</StyledEngineProvider>
       </body>
     </html>

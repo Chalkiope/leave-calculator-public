@@ -1,0 +1,46 @@
+@import "../src/styles.scss";
+
+.header {
+  background-color: $beige;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+
+  .headerInner {
+    padding: 3rem;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+
+  h1 {
+    font-size: 3rem;
+    color: $purple;
+    line-height: 0.5em;
+  }
+  p {
+    font-size: 1.5rem;
+    color: rgba($purple, 0.6);
+  }
+}
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 3rem;
+  height: calc(100vh - 150px);
+  position: sticky;
+  top: 0;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    position: relative;
+  }
+}
