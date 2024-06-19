@@ -18,7 +18,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
   const { allLeave, totalDays } = useContext(LeaveContext);
   const hoursTaken = totalDays * 8;
 
-  const startDate = moment([2017, 10, 13]);
+  const startDate = moment([2021, 9, 13]);
   const [futureDate, setFutureDate] = useState<any>(null);
   const today = moment();
 
@@ -54,7 +54,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
       <div className={s.innerContainer}>
         <div className={`${s.container} ${s.leaveAcc}`}>
           <h2>
-            Leave accumulated<span>*since Nov 13, 2017</span>
+            Leave accumulated<span>*since Sep 13, 2021</span>
           </h2>
           <div className={s.counter}>
             {accumLeaveDays} Days / {accumLeaveHours} Hours
@@ -62,7 +62,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
         </div>
         <div className={`${s.container} ${s.leaveTaken}`}>
           <h2>
-            Leave taken<span>*since Nov 13, 2017</span>
+            Leave taken<span>*since Sep 13, 2021</span>
           </h2>
           <div className={s.counter}>
             {totalDays} Days / {hoursTaken} Hours
