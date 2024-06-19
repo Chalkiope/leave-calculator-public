@@ -26,6 +26,7 @@ export default function LeaveContextProvider({
 
   const client = buildClient({
     apiToken: `${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
+    environment: `${process.env.NEXT_PUBLIC_DATOCMS_ENVIRONMENT}`,
   });
 
   const getAllLeaveRecords = async () => {
