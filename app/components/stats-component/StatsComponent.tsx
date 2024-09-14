@@ -1,24 +1,17 @@
 "use client";
 import { useContext, useState } from "react";
 import s from "./StatsComponent.module.scss";
-import Paper from "@mui/material/Paper";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
 import { LeaveContext } from "@/lib/LeaveContext";
 
-interface LeaveDataProps {
-  id: any;
-  leaveName?: string | null | undefined;
-  numberOfDays?: any;
-}
-
-export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
+export const StatsComponent = () => {
   const { allLeave, totalDays } = useContext(LeaveContext);
   const hoursTaken = totalDays * 8;
 
-  const startDate = moment([2017, 10, 13]);
+  const startDate = moment([2020, 10, 13]);
   const [futureDate, setFutureDate] = useState<any>(null);
   const today = moment();
 
@@ -54,7 +47,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
       <div className={s.innerContainer}>
         <div className={`${s.container} ${s.leaveAcc}`}>
           <h2>
-            Leave accumulated<span>*since Nov 13, 2017</span>
+            Leave accumulated<span>*since Nov 13, 2020</span>
           </h2>
           <div className={s.counter}>
             {accumLeaveDays} Days / {accumLeaveHours} Hours
@@ -62,7 +55,7 @@ export const StatsComponent = ({ data }: { data: LeaveDataProps[] }) => {
         </div>
         <div className={`${s.container} ${s.leaveTaken}`}>
           <h2>
-            Leave taken<span>*since Nov 13, 2017</span>
+            Leave taken<span>*since Nov 13, 2020</span>
           </h2>
           <div className={s.counter}>
             {totalDays} Days / {hoursTaken} Hours
