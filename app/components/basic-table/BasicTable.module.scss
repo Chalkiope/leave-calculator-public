@@ -21,6 +21,7 @@
   flex-grow: 1;
   position: relative;
   overflow: clip scroll;
+  scrollbar-width: none;
   & > * {
     font-family: $mainFont;
   }
